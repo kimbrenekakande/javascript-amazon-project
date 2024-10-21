@@ -1,3 +1,8 @@
+import { products } from "../data/products.js";
+import { cart } from "../data/cart.js";
+
+
+
 let productsHTML = '';
 
 products.forEach((product)=>{
@@ -18,8 +23,8 @@ products.forEach((product)=>{
             
             <div class="product-price">${product.priceCents/100}</div>
             
-            <div class="product-quantity-container">
-                <select class="js-QtyPicker">
+            <div class="product-quantity-container" datd>
+                <select class="js-QtyPicker" data-selector-id = "${product.id}">
                     <option selected value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -52,6 +57,7 @@ let cartQuantity = 0;
 
 document.querySelectorAll('.js-add-cart').forEach((button) => {
     button.addEventListener('click', () => {
+        //console.log(document.querySelector('.js-QtyPicker').innerHTML)
         //Use data attribute to the buttons and access it through (dataset)
         let productID = button.dataset.prodId;
         let prodMatch;
