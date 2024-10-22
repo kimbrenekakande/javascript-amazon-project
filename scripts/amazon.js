@@ -1,13 +1,11 @@
 import { products } from "../data/products.js";
-import { cart } from "../data/cart.js";
-
-
+import { cart, addTocart } from "../data/cart.js";
 
 let productsHTML = '';
 
 products.forEach((product)=>{
     productsHTML +=`
-    <div class="product-container">
+    <div class="product-container"> 
             <div class="product-image-container">
                 <img class="product-image" src = ${product.image}>
             </div>
@@ -42,7 +40,6 @@ products.forEach((product)=>{
                 <img src="images/icons/checkmark.png">
                 Added
             </div>
-
             <button class="add-to-cart-button button-primary js-add-cart"; data-prod-id = "${product.id}" >
             Add to Cart
             </button>
@@ -53,41 +50,22 @@ document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
 
 
-let cartQuantity = 0;
+function updateQuantity(){
+    //Calculate total quantity and sum
+    let cartSum = 0;
+    cart.forEach((cartProd)=>{
+        cartSum += cartProd.qty;
+    })
+    
+    document.querySelector('.js-cartQty').innerHTML = cartSum
+}
 
 document.querySelectorAll('.js-add-cart').forEach((button) => {
     button.addEventListener('click', () => {
-        //console.log(document.querySelector('.js-QtyPicker').innerHTML)
         //Use data attribute to the buttons and access it through (dataset)
         let productID = button.dataset.prodId;
-        let prodMatch;
-        
-        //Check if product already exists in cart, if so increase quantity, else add new product to cart
-        cart.forEach((cartProd)=>{
-            if (productID === cartProd.id) {
-                prodMatch = cartProd;
-            }
-        })
-        
-        if(prodMatch){
-            prodMatch.qty += 1;
-        }else{
-            cart.push({
-                id : productID,
-                qty : 1
-            })
-        }
-        
-        
-        //Calculate total quantity and sum
-        let cartSum = 0;
-        cart.forEach((prodx)=>{
-            cartSum += prodx.qty;
-        })
-        
-        //console.log(`Cart Total : ${cartSum}`)
-        document.querySelector('.js-cartQty').innerHTML = cartSum
-        
+        addTocart(productID);
+        updateQuantity();
     });
 });
 
