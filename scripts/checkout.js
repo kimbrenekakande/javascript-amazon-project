@@ -1,7 +1,10 @@
 import { products } from "../data/products.js";
 import { cart } from "../data/cart.js";
 
+document.querySelector('.return-to-home-link').innerHTML = cart.length
+document.querySelector('.js-order-sum').innerHTML=cart.length
 let boughtProdsHTML;
+let DecTotal = 0;
 
 cart.forEach((cartProd)=>{
     //Find bought product  (Added to  Cart) from products.js using their id
@@ -89,10 +92,39 @@ cart.forEach((cartProd)=>{
                 </div>
                 </div>
             </div>
-        </div> `
+        </div> 
+    `
+    DecTotal +=boughtProd.priceCents/100;
 })
+
+//total cost of intems in the cart
+let roundedTotal = DecTotal.toFixed(2)
+document.querySelector('.payment-summary-money').innerHTML = roundedTotal
+
+//total cost before tax with shipping and handling
+let shippingHandling = 4.99
+let costB4Tax = (((roundedTotal*100) + (shippingHandling*100))/100).toFixed(2)
+document.querySelector('.b4Tax').innerHTML = costB4Tax
+
+//Estimated Tax
+const tax = 10/100
+let estimatedTax = ((tax * (costB4Tax * 100))/100).toFixed(2)
+document.querySelector('.js-est-tax').innerHTML = estimatedTax
+
+//Order Total with tax, shipping & Handling
+let totalCostWithTax = (((costB4Tax * 100) + (estimatedTax * 100))/100).toFixed(2)
+document.querySelector('.js-order-total').innerHTML = totalCostWithTax
+
+
 document.querySelector('.js-order-summary').innerHTML = boughtProdsHTML;
-console.log(localStorage.getItem('cart'))
+
+
+
+
+
+
+
+
 
 //get the id of the product
 //search for matching id in the cart
@@ -110,3 +142,4 @@ document.querySelectorAll('.js-delete-prod').forEach((delBut)=>{
         })
     })
 })
+
