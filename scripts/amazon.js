@@ -1,6 +1,8 @@
 import { products } from "../data/products.js";
 import { cart, addTocart } from "../data/cart.js";
 
+console.log(cart)
+
 let productsHTML = '';
 
 products.forEach((product)=>{
@@ -22,7 +24,7 @@ products.forEach((product)=>{
             <div class="product-price">${product.priceCents/100}</div>
             
             <div class="product-quantity-container" datd>
-                <select class="js-QtyPicker" data-selector-id = "${product.id}">
+                <select class="js-QtyPicker">
                     <option selected value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -50,7 +52,7 @@ document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
 
 
-function updateQuantity(){
+export function updateQuantity(){
     //Calculate total quantity and sum
     let cartSum = 0;
     cart.forEach((cartProd)=>{
@@ -66,8 +68,11 @@ document.querySelectorAll('.js-add-cart').forEach((button) => {
         let productID = button.dataset.prodId;
         addTocart(productID);
         updateQuantity();
+        localStorage.setItem('cart', JSON.stringify(cart))
+        console.log(typeof cart)
     });
 });
+
 
 
 

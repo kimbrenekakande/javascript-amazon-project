@@ -1,4 +1,6 @@
-export const cart = [];
+export let cart = localStorage.getItem('cart');
+!cart ?  cart = [] : cart = JSON.parse(cart);
+
 
 export function addTocart(productID){
     let prodMatch;
@@ -18,4 +20,6 @@ export function addTocart(productID){
             qty : 1
         })
     }
+    //update local storage
+    
 }
