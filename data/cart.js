@@ -1,5 +1,7 @@
-export let cart = localStorage.getItem('cart');
-!cart ?  cart = [] : cart = JSON.parse(cart);
+export let cart = [
+    {id: "15b6fc6f-327a-4ec4-896f-486349e85a3d", qty : 2},
+    {id: "3ebe75dc-64d2-4137-8860-1f5a963e534b", qty : 8}
+];
 
 
 export function addTocart(productID){
@@ -22,4 +24,15 @@ export function addTocart(productID){
     }
     //update local storage
     
+}
+
+//delete product from cart
+export function delete4rmCart(productId){
+    const newCart = [];
+    cart.forEach((prod)=>{
+        if (prod.id !== productId) {
+            newCart.push(prod)
+        }
+    })
+    cart = newCart;
 }

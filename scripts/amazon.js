@@ -69,7 +69,6 @@ document.querySelectorAll('.js-add-cart').forEach((button) => {
         let productID = button.dataset.prodId;
         addTocart(productID);
         updateQuantity();
-        localStorage.setItem('cart', JSON.stringify(cart))
         console.log(typeof cart)
     });
 });

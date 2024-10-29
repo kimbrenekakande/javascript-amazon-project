@@ -1,6 +1,7 @@
 import { products } from "../data/products.js";
 import { cart } from "../data/cart.js";
 import { formatCurrency } from "./utils/money.js";
+import { delete4rmCart } from "../data/cart.js";
 
 document.querySelector('.return-to-home-link').innerHTML = cart.length
 document.querySelector('.js-order-sum').innerHTML=cart.length
@@ -42,7 +43,7 @@ cart.forEach((cartProd)=>{
                     <span class="update-quantity-link link-primary">
                     Update
                     </span>
-                    <span class="delete-quantity-link link-primary js-delete-prod" data-delete-id = "${cartProd.id}">
+                    <span class="delete-quantity-link link-primary js-delete" data-prod-id = ${boughtProd.id}>
                     Delete
                     </span>
                 </div>
@@ -98,6 +99,7 @@ cart.forEach((cartProd)=>{
     DecTotal +=boughtProd.priceCents/100;
 })
 
+
 //total cost of intems in the cart
 let roundedTotal = DecTotal.toFixed(2)
 document.querySelector('.payment-summary-money').innerHTML = roundedTotal
@@ -114,15 +116,9 @@ document.querySelector('.js-est-tax').innerHTML = estimatedTax
 
 //Order Total with tax, shipping & Handling
 let totalCostWithTax = (((costB4Tax * 100) + (estimatedTax * 100))/100).toFixed(2)
-document.querySelector('.js-order-total').innerHTML = totalCostWithTax
-
+document.querySelector('.js-order-total').innerHTML = totalCostWithTax;
 
 document.querySelector('.js-order-summary').innerHTML = boughtProdsHTML;
-
-
-
-
-
 
 
 
@@ -131,16 +127,11 @@ document.querySelector('.js-order-summary').innerHTML = boughtProdsHTML;
 //search for matching id in the cart
 //delete the product from the cart
 
-document.querySelectorAll('.js-delete-prod').forEach((delBut)=>{
-    delBut.addEventListener('click', ()=>{
-        let deletedId = delBut.dataset.deleteId
-        //let deletedProd;
-        cart.forEach((cartProd) => {
-            if (cartProd.id === deletedId){
-                let ind = cart.indexOf(cartProd)
-                console.log(ind)
-            }
-        })
+document.querySelectorAll('.js-delete').forEach((deletor)=>{
+    deletor.addEventListener('click', ()=>{
+        const prodId = deletor.dataset.prodId
+        delete4rmCart(prodId)
+        console.log(cart)
     })
 })
 
