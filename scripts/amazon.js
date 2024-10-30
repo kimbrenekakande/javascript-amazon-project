@@ -1,8 +1,6 @@
 import { products } from "../data/products.js";
-import { cart, addTocart } from "../data/cart.js";
+import { cart, addTocart} from "../data/cart.js";
 import { formatCurrency } from "./utils/money.js";
-
-console.log(cart)
 
 let productsHTML = '';
 
@@ -48,33 +46,28 @@ products.forEach((product)=>{
             </button>
         </div>`
 })
-
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
 
-
-export function updateQuantity(){
-    //Calculate total quantity and sum
-    let cartSum = 0;
-    cart.forEach((cartProd)=>{
-        cartSum += cartProd.qty;
-    })
-    
-    document.querySelector('.js-cartQty').innerHTML = cartSum
-}
 
 document.querySelectorAll('.js-add-cart').forEach((button) => {
     button.addEventListener('click', () => {
         //Use data attribute to the buttons and access it through (dataset)
         let productID = button.dataset.prodId;
         addTocart(productID);
-        updateQuantity();
-        console.log(typeof cart)
+        updateCartSum();
     });
 });
 
 
 
+//cart Icon View
+export function updateCartSum(){
+    let cartSum = 0
+    cart.forEach((prody)=>{
+        cartSum += prody.qty
+    })
+    document.querySelector('.js-cartQty').innerHTML =  cartSum
+}
 
-
-
+updateCartSum();
