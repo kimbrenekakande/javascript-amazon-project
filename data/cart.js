@@ -3,8 +3,8 @@ export let cart = JSON.parse(localStorage.getItem('cart'))
 
 if(!cart){
     cart = [
-        {id: "15b6fc6f-327a-4ec4-896f-486349e85a3d", qty : 2},
-        {id: "3ebe75dc-64d2-4137-8860-1f5a963e534b", qty : 8}
+        {id: "15b6fc6f-327a-4ec4-896f-486349e85a3d", selectedQty : 2},
+        {id: "3ebe75dc-64d2-4137-8860-1f5a963e534b", selectedQty : 8}
     ];
 }
 
@@ -15,6 +15,9 @@ function save2storage(){
 
 
 export function addTocart(productID){
+    let selectedQty = Number(document.querySelector(`.js-QtyPicker-${productID}`).value)
+    console.log(selectedQty)
+
     let prodMatch;
         
     //Check if product already exists in cart, if so increase quantity, else add new product to cart
@@ -26,11 +29,11 @@ export function addTocart(productID){
     })
     
     if(prodMatch){
-        prodMatch.qty += 1;
+        prodMatch.qty += selectedQty;
     }else{
         cart.push({
             id : productID,
-            qty : 1
+            qty : selectedQty
         })
     }
     //update local storage

@@ -22,8 +22,8 @@ products.forEach((product)=>{
             
             <div class="product-price">${formatCurrency(product.priceCents)}</div>
             
-            <div class="product-quantity-container" datd>
-                <select class="js-QtyPicker">
+            <div class="product-quantity-container">
+                <select class="js-QtyPicker-${product.id}">
                     <option selected value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -65,7 +65,7 @@ document.querySelectorAll('.js-add-cart').forEach((button) => {
 export function updateCartSum(){
     let cartSum = 0
     cart.forEach((prody)=>{
-        cartSum += prody.qty
+        cartSum += prody.selectedQty
     })
     document.querySelector('.js-cartQty').innerHTML =  cartSum
 }
