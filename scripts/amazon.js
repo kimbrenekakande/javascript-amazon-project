@@ -1,5 +1,5 @@
 import { products } from "../data/products.js";
-import { cart, addTocart} from "../data/cart.js";
+import { cart, addTocart, updateCartSum} from "../data/cart.js";
 import { formatCurrency } from "./utils/money.js";
 
 let productsHTML = '';
@@ -55,19 +55,10 @@ document.querySelectorAll('.js-add-cart').forEach((button) => {
         //Use data attribute to the buttons and access it through (dataset)
         let productID = button.dataset.prodId;
         addTocart(productID);
-        updateCartSum();
     });
 });
 
+updateCartSum()
 
 
-//cart Icon View
-export function updateCartSum(){
-    let cartSum = 0
-    cart.forEach((prody)=>{
-        cartSum += prody.selectedQty
-    })
-    document.querySelector('.js-cartQty').innerHTML =  cartSum
-}
 
-updateCartSum();

@@ -16,8 +16,6 @@ function save2storage(){
 
 export function addTocart(productID){
     let selectedQty = Number(document.querySelector(`.js-QtyPicker-${productID}`).value)
-    console.log(selectedQty)
-
     let prodMatch;
         
     //Check if product already exists in cart, if so increase quantity, else add new product to cart
@@ -29,15 +27,16 @@ export function addTocart(productID){
     })
     
     if(prodMatch){
-        prodMatch.qty += selectedQty;
+        prodMatch.selectedQty += selectedQty;
     }else{
         cart.push({
             id : productID,
-            qty : selectedQty
+            selectedQty : selectedQty
         })
     }
     //update local storage
     save2storage();
+    updateCartSum()
 }
 
 
@@ -51,4 +50,13 @@ export function delete4rmCart(productId){
     })
     cart = newCart;
     save2storage();
+}
+
+//cart Icon View
+export function updateCartSum(){
+    let cartSum = 0
+    cart.forEach((prody)=>{
+        cartSum += Number(prody.selectedQty)
+    })
+    document.querySelector('.js-cartQty').innerHTML =  Number(cartSum)
 }

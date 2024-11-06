@@ -4,6 +4,7 @@ import { formatCurrency } from "./utils/money.js";
 import { delete4rmCart } from "../data/cart.js";
 
 document.querySelector('.return-to-home-link').innerHTML = cart.length
+
 document.querySelector('.js-order-sum').innerHTML=cart.length
 let boughtProdsHTML;
 let DecTotal = 0;
@@ -38,7 +39,7 @@ cart.forEach((cartProd)=>{
                 </div>
                 <div class="product-quantity">
                     <span>
-                    Quantity: <span class="quantity-label">${cartProd.qty}</span>
+                    Quantity: <span class="quantity-label">${cartProd.selectedQty}</span>
                     </span>
                     <span class="update-quantity-link link-primary">
                     Update
