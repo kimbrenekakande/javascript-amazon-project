@@ -6,7 +6,7 @@ import { delete4rmCart } from "../data/cart.js";
 document.querySelector('.return-to-home-link').innerHTML = cart.length
 
 document.querySelector('.js-order-sum').innerHTML=cart.length
-let boughtProdsHTML;
+let boughtProdsHTML = ''
 let DecTotal = 0;
 
 cart.forEach((cartProd)=>{
@@ -41,7 +41,7 @@ cart.forEach((cartProd)=>{
                     <span>
                     Quantity: <span class="quantity-label">${cartProd.selectedQty}</span>
                     </span>
-                    <span class="update-quantity-link link-primary">
+                    <span class="update-quantity-link link-primary js-update" data-prod-id = ${boughtProd.id}>
                     Update
                     </span>
                     <span class="delete-quantity-link link-primary js-delete" data-prod-id = ${boughtProd.id}>
@@ -159,4 +159,17 @@ document.querySelectorAll('.js-delete').forEach((deletor)=>{
         
     })
 })
+
+
+//Updating The cart
+
+document.querySelectorAll('.js-update').forEach(updator => {
+    updator.addEventListener('click', ()=>{
+        let updateID = updator.dataset.prodId;
+        console.log(updateID)
+    })
+});
+
+console.log('---------------')
+console.log(cart)
 

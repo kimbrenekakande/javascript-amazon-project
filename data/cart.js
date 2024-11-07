@@ -42,7 +42,7 @@ export function addTocart(productID){
 
 //delete product from cart
 export function delete4rmCart(productId){
-    const newCart = [];
+    let newCart = [];
     cart.forEach((prod)=>{
         if (prod.id !== productId) {
             newCart.push(prod)
