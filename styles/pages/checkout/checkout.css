@@ -209,3 +209,22 @@
   margin-top: 11px;
   margin-bottom: 15px;
 }
+
+.quantity-input{
+  width: 30px;
+}
+
+.save-quantity-link,
+.quantity-input{
+  display: none;
+}
+
+
+/*
+.is-editing-quantity{
+}
+*/
+
+.view-qty-editor{
+  display: initial;
+}
