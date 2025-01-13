@@ -39,7 +39,7 @@ products.forEach((product)=>{
             <div class="product-spacer"></div>
             <div class="added-to-cart">
                 <img src="images/icons/checkmark.png">
-                <p class="addednote-${product.id}">Added</p>
+                <p class="prod-added" data-added-prod-id ="${product.id}">Added</p>
             </div>
             <button class="add-to-cart-button button-primary js-add-cart"; data-prod-id = "${product.id}" >
             Add to Cart
@@ -54,9 +54,11 @@ document.querySelectorAll('.js-add-cart').forEach((button) => {
     button.addEventListener('click', () => {
         //Use data attribute to the buttons and access it through (dataset)
         let productID = button.dataset.prodId;
-        console.log(button.dataset);
         addTocart(productID);
-        
+        let fool = document.querySelector('.prod-added')
+        let addedProdId = fool.dataset.addedProdId
+        console.log(addedProdId)
+        console.log(productID)
     });
     
 });
