@@ -49,16 +49,17 @@ products.forEach((product)=>{
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
 
-
 document.querySelectorAll('.js-add-cart').forEach((button) => {
     button.addEventListener('click', () => {
         //Use data attribute to the buttons and access it through (dataset)
         let productID = button.dataset.prodId;
         addTocart(productID);
-        let fool = document.querySelector('.prod-added')
-        let addedProdId = fool.dataset.addedProdId
-        console.log(addedProdId)
+
+        let ProdAddedNote = document.querySelector('.prod-added').dataset.addedProdId = productID;
+        ProdAddedNote === productID ? console.log('Product Added') : console.log('Product Not Added')
+        
         console.log(productID)
+        console.log(ProdAddedNote)
     });
     
 });
