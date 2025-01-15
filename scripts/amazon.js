@@ -37,9 +37,9 @@ products.forEach((product)=>{
                 </select>
             </div>
             <div class="product-spacer"></div>
-            <div class="added-to-cart">
+            <div class="added-to-cart js-added-to-cart-${product.id}">
                 <img src="images/icons/checkmark.png">
-                <p class="prod-added" data-added-prod-id ="${product.id}">Added</p>
+                Added
             </div>
             <button class="add-to-cart-button button-primary js-add-cart"; data-prod-id = "${product.id}" >
             Add to Cart
@@ -50,16 +50,25 @@ document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
 
 document.querySelectorAll('.js-add-cart').forEach((button) => {
+    let notetimer; //Declare timer variable outside the event listener
+
     button.addEventListener('click', () => {
         //Use data attribute to the buttons and access it through (dataset)
         let productID = button.dataset.prodId;
         addTocart(productID);
 
-        let ProdAddedNote = document.querySelector('.prod-added').dataset.addedProdId = productID;
-        ProdAddedNote === productID ? console.log('Product Added') : console.log('Product Not Added')
+        document.querySelector(`.js-added-to-cart-${productID}`).classList.add('item-added');
+
+        //Clear any existing timeout of this variable before setting a new one
+        if (notetimer) {
+            clearTimeout(notetimer)
+        }
+
+        //Set a new timeout 
+        notetimer = setTimeout(()=>{
+            document.querySelector(`.js-added-to-cart-${productID}`).classList.remove('item-added');
+        }, 2000)
         
-        console.log(productID)
-        console.log(ProdAddedNote)
     });
     
 });
