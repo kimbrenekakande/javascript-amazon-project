@@ -157,7 +157,6 @@ document.querySelectorAll('.js-delete').forEach((deletor)=>{
         //Remove product Html from the DOM
         const container = document.querySelector(`.js-item-contaner-${prodId}`)
         container.remove()
-        window.location.reload()
         
     })
 })

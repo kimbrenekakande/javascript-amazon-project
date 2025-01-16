@@ -54,9 +54,15 @@ export function delete4rmCart(productId){
 
 //cart Icon View
 export function updateCartSum(){
-    let cartSum = 0
+    let cartSum = 0;
     cart.forEach((prody)=>{
         cartSum += Number(prody.selectedQty)
     })
-    document.querySelector('.js-cartQty').innerHTML =  Number(cartSum)
+
+    let x = document.querySelector('.js-cartQty').innerHTML
+    if(!cartSum){
+        document.querySelector('.js-cartQty').innerHTML = '';
+    }else{
+        document.querySelector('.js-cartQty').innerHTML = cartSum;
+    }
 }

@@ -63,7 +63,6 @@ document.querySelectorAll('.js-add-cart').forEach((button) => {
         if (notetimer) {
             clearTimeout(notetimer)
         }
-
         //Set a new timeout 
         notetimer = setTimeout(()=>{
             document.querySelector(`.js-added-to-cart-${productID}`).classList.remove('item-added');
