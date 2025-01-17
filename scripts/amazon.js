@@ -71,8 +71,7 @@ document.querySelectorAll('.js-add-cart').forEach((button) => {
     });
     
 });
-
-updateCartSum()
+updateCartSum();
 
 
 

@@ -1,11 +1,12 @@
 import { products } from "../data/products.js";
-import { cart } from "../data/cart.js";
+import { cart,updateCartSum } from "../data/cart.js";
 import { formatCurrency } from "./utils/money.js";
 import { delete4rmCart } from "../data/cart.js";
 
-document.querySelector('.return-to-home-link').innerHTML = cart.length
+//document.querySelector('.return-to-home-link').innerHTML = `${updateCartSum()} items`
+updateCartSum();
 
-document.querySelector('.js-order-sum').innerHTML=cart.length
+//document.querySelector('.js-order-sum').innerHTML=cart.length
 let boughtProdsHTML = ''
 let DecTotal = 0;
 
@@ -157,7 +158,7 @@ document.querySelectorAll('.js-delete').forEach((deletor)=>{
         //Remove product Html from the DOM
         const container = document.querySelector(`.js-item-contaner-${prodId}`)
         container.remove()
-        
+        updateCartSum()
     })
 })
 

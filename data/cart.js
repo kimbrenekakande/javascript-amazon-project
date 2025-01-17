@@ -1,4 +1,3 @@
-
 export let cart = JSON.parse(localStorage.getItem('cart'))
 
 if(!cart){
@@ -52,17 +51,40 @@ export function delete4rmCart(productId){
     save2storage();
 }
 
-//cart Icon View
+//Update cart sum
 export function updateCartSum(){
     let cartSum = 0;
     cart.forEach((prody)=>{
         cartSum += Number(prody.selectedQty)
     })
 
-    let x = document.querySelector('.js-cartQty').innerHTML
+    // Declare variables for DOM elements
+    const cartQtyElement = document.querySelector('.js-cartQty');
+    const checkoutHeaderTotalElement = document.querySelector('.js-checkout-header-total');
+    const orderSumElement = document.querySelector('.js-order-sum');
+
     if(!cartSum){
-        document.querySelector('.js-cartQty').innerHTML = '';
+        // Check if elements exist before updating
+        if (cartQtyElement) {
+            cartQtyElement.innerHTML = '';
+        }
+        if (checkoutHeaderTotalElement) {
+            checkoutHeaderTotalElement.innerHTML = '';
+        }
+        if (orderSumElement) {
+            orderSumElement.innerHTML = 0;
+        }
     }else{
-        document.querySelector('.js-cartQty').innerHTML = cartSum;
+        // Update elements if they exist
+        if (cartQtyElement) {
+            cartQtyElement.innerHTML = cartSum;
+        }
+        if (checkoutHeaderTotalElement) {
+            checkoutHeaderTotalElement.innerHTML = `${cartSum} items`;
+        }
+        if (orderSumElement) {
+            orderSumElement.innerHTML = cartSum;
+        }
     }
+
 }
