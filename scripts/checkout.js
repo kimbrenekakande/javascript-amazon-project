@@ -32,25 +32,25 @@ cart.forEach((cartProd)=>{
                 src=${boughtProd.image}>
 
                 <div class="cart-item-details">
-                <div class="product-name">
-                    ${boughtProd.name}
-                </div>
-                <div class="product-price">
-                    ${formatCurrency(boughtProd.priceCents)}
-                </div>
-                <div class="product-quantity">
-                    <span>
-                    Quantity: <span class="quantity-label">${cartProd.selectedQty}</span>
-                    </span>
-                    <span class="update-quantity-link link-primary js-update" data-prod-id = ${boughtProd.id}>
-                    Update
-                    </span>
-                    <span class="delete-quantity-link link-primary js-delete" data-prod-id = ${boughtProd.id}>
-                    Delete
-                    </span>
-                    <input class="quantity-input link-primary">
-                    <span class="save-quantity-link">Save</span>
-                </div>
+                    <div class="product-name">
+                        ${boughtProd.name}
+                    </div>
+                    <div class="product-price">
+                        ${formatCurrency(boughtProd.priceCents)}
+                    </div>
+                    <div class="product-quantity">
+                        <span>
+                        Quantity: <span class="quantity-label">${cartProd.selectedQty}</span>
+                        </span>
+                        <span class="update-quantity-link link-primary js-update" data-prod-id = ${boughtProd.id}>
+                        Update
+                        </span>
+                        <input class="quantity-input quantity-input-${boughtProd.id} link-primary">
+                        <span class="save-quantity-link save-quantity-link-${boughtProd.id} link-primary">Save</span>
+                        <span class="delete-quantity-link link-primary js-delete" data-prod-id = ${boughtProd.id}>
+                        Delete
+                        </span>
+                    </div>
                 </div>
 
                 <div class="delivery-options">
@@ -169,14 +169,33 @@ document.querySelectorAll('.js-update').forEach(updator => {
     updator.addEventListener('click', ()=>{
         let updateID = updator.dataset.prodId;
         document.querySelector(`.js-item-contaner-${updateID}`).classList.add('is-editing-quantity')
-        document.querySelector(`.save-quantity-link`).classList.add('view-qty-editor')
-        document.querySelector(`.quantity-input`).classList.add('view-qty-editor')
-        document.querySelector(`.quantity-input`).classList.add('view-qty-editor')
-
-        console.log(updateID)
+        
+        document.querySelector(`.quantity-input-${updateID}`).classList.add('view-qty-editor')
+        document.querySelector(`.save-quantity-link-${updateID}`).classList.add('view-qty-editor')
     })
 });
 
-console.log('---------------')
-console.log(cart)
 
+/*
+document.querySelector('.save-quantity-link').forEach( savUpdate => {
+    savUpdate.addEventListener('click' , ()=>{
+        let updateID = updator.dataset.prodId
+        const ProdDetails = savUpdate.closest('.cart-item-details')
+        const upDateBy = ProdDetails.querySelector(`.quantity-input-${updateID}`).value
+
+        console.log(upDateBy)
+    });
+})
+
+
+
+function updateProdQuantity (prodId, newQty){
+    cart.forEach((prod)=>{
+        if(prod.id === prodId){
+            prod.selectedQty = newQty;
+        }
+    })
+    save2storage();
+    updateCartSum();
+}
+*/
