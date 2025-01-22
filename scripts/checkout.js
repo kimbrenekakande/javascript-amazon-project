@@ -1,5 +1,5 @@
 import { products } from "../data/products.js";
-import { cart,updateCartSum } from "../data/cart.js";
+import { cart,updateCartSum, updateProdQuantity } from "../data/cart.js";
 import { formatCurrency } from "./utils/money.js";
 import { delete4rmCart } from "../data/cart.js";
 
@@ -40,13 +40,13 @@ cart.forEach((cartProd)=>{
                     </div>
                     <div class="product-quantity">
                         <span>
-                        Quantity: <span class="quantity-label">${cartProd.selectedQty}</span>
+                        Quantity: <span class='quantity-label quantity-label-${boughtProd.id}'>${cartProd.selectedQty}</span>
                         </span>
                         <span class="update-quantity-link link-primary js-update" data-prod-id = ${boughtProd.id}>
                         Update
                         </span>
                         <input class="quantity-input quantity-input-${boughtProd.id} link-primary">
-                        <span class="save-quantity-link save-quantity-link-${boughtProd.id} link-primary">Save</span>
+                        <span class="save-quantity-link save-quantity-link-${boughtProd.id} link-primary" data-update-prod-id = ${boughtProd.id}>Save</span>
                         <span class="delete-quantity-link link-primary js-delete" data-prod-id = ${boughtProd.id}>
                         Delete
                         </span>
@@ -163,39 +163,30 @@ document.querySelectorAll('.js-delete').forEach((deletor)=>{
 })
 
 
+
+
+
 //Updating The cart
 
 document.querySelectorAll('.js-update').forEach(updator => {
     updator.addEventListener('click', ()=>{
         let updateID = updator.dataset.prodId;
-        document.querySelector(`.js-item-contaner-${updateID}`).classList.add('is-editing-quantity')
-        
+        document.querySelector(`.js-item-contaner-${updateID}`).classList.add('is-editing-quantity') 
         document.querySelector(`.quantity-input-${updateID}`).classList.add('view-qty-editor')
         document.querySelector(`.save-quantity-link-${updateID}`).classList.add('view-qty-editor')
     })
 });
 
 
-/*
-document.querySelector('.save-quantity-link').forEach( savUpdate => {
+document.querySelectorAll('.save-quantity-link').forEach( savUpdate => {
     savUpdate.addEventListener('click' , ()=>{
-        let updateID = updator.dataset.prodId
-        const ProdDetails = savUpdate.closest('.cart-item-details')
-        const upDateBy = ProdDetails.querySelector(`.quantity-input-${updateID}`).value
-
-        console.log(upDateBy)
+        let updateID = savUpdate.dataset.updateProdId;
+        const upDateBy = savUpdate.closest('.cart-item-details').querySelector(`.quantity-input-${updateID}`).value
+        savUpdate.closest('.cart-item-details').querySelector(`.quantity-label-${updateID}`).innerHTML = upDateBy;
+        updateProdQuantity(updateID, upDateBy)
+        //
+        document.querySelector(`.js-item-contaner-${updateID}`).classList.remove('is-editing-quantity') 
+        document.querySelector(`.quantity-input-${updateID}`).classList.remove('view-qty-editor')
+        document.querySelector(`.save-quantity-link-${updateID}`).classList.remove('view-qty-editor')
     });
 })
-
-
-
-function updateProdQuantity (prodId, newQty){
-    cart.forEach((prod)=>{
-        if(prod.id === prodId){
-            prod.selectedQty = newQty;
-        }
-    })
-    save2storage();
-    updateCartSum();
-}
-*/

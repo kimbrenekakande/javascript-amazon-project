@@ -8,7 +8,7 @@ if(!cart){
 }
 
 
-function save2storage(){
+export function save2storage(){
     localStorage.setItem("cart", JSON.stringify(cart));
 }
 
@@ -87,4 +87,15 @@ export function updateCartSum(){
         }
     }
 
+}
+
+export function updateProdQuantity (prodId, upDateBy){
+    cart.forEach((prod)=>{
+        if(prod.id === prodId){
+            prod.selectedQty = upDateBy;
+            
+        }
+    })
+    save2storage();
+    updateCartSum();
 }
