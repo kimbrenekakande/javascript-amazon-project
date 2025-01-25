@@ -100,48 +100,38 @@ cart.forEach((cartProd)=>{
             </div>
         </div> 
     `
-    DecTotal +=boughtProd.priceCents/100;
+    DecTotal += boughtProd.priceCents/100;
 })
 
-//Estimated Costs
-let tax = 10/100;
-let shippingHandling = 4.99
+function OrderSumm(){
+    //Estimated Costs
 
-if(!DecTotal){
-    tax = 0;
-    shippingHandling = 0.00;
-    document.querySelector('.js-shipEnHandle').innerHTML = '0.00';
+    let tax = 10/100;
+    let shippingHandling = 4.99
+
+    if(!DecTotal){
+        tax = 0;
+        shippingHandling = 0.00;
+        document.querySelector('.js-shipEnHandle').innerHTML = '0.00';
+    }
+    //total cost of intems in the cart
+    let roundedTotal = DecTotal.toFixed(2)
+    document.querySelector('.payment-summary-money').innerHTML = roundedTotal
+    
+    //total cost before tax with shipping and handling
+    let costB4Tax = (((roundedTotal*100) + (shippingHandling*100))/100).toFixed(2)
+    document.querySelector('.b4Tax').innerHTML = costB4Tax
+    let estimatedTax = ((tax * (costB4Tax * 100))/100).toFixed(2)
+    document.querySelector('.js-est-tax').innerHTML = estimatedTax
+
+    //Order Total with tax, shipping & Handling
+    let totalCostWithTax = (((costB4Tax * 100) + (estimatedTax * 100))/100).toFixed(2)
+    document.querySelector('.js-order-total').innerHTML = totalCostWithTax;
+    document.querySelector('.js-order-summary').innerHTML = boughtProdsHTML;
 }
 
+OrderSumm();
 
-
-//total cost of intems in the cart
-let roundedTotal = DecTotal.toFixed(2)
-document.querySelector('.payment-summary-money').innerHTML = roundedTotal
-
-//total cost before tax with shipping and handling
-let costB4Tax = (((roundedTotal*100) + (shippingHandling*100))/100).toFixed(2)
-document.querySelector('.b4Tax').innerHTML = costB4Tax
-
-
-
-
-
-let estimatedTax = ((tax * (costB4Tax * 100))/100).toFixed(2)
-document.querySelector('.js-est-tax').innerHTML = estimatedTax
-
-//Order Total with tax, shipping & Handling
-let totalCostWithTax = (((costB4Tax * 100) + (estimatedTax * 100))/100).toFixed(2)
-document.querySelector('.js-order-total').innerHTML = totalCostWithTax;
-
-document.querySelector('.js-order-summary').innerHTML = boughtProdsHTML;
-
-//
-if(!DecTotal){ 
-    console.log('zero')
-}else{
-    console.log('Not Zero')
-}
 
 
 
