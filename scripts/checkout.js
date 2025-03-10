@@ -2,9 +2,18 @@ import { products } from "../data/products.js";
 import { cart, updateCartSum, updateProdQuantity } from "../data/cart.js";
 import { formatCurrency } from "./utils/money.js";
 import { delete4rmCart } from "../data/cart.js";
-import dayjs from 'https://unpkg.com/dayjs@1.11.13/esm/index.js';
+import dayjs from 'https://unpkg.com/dayjs@1.11.13/esm/index.js'
+import { deliveryOptions } from "../data/deliveryOptions.js";
 
-console.log(dayjs().format()); 
+
+//test.
+console.log(dayjs())
+console.log(dayjs().format( 'D MMMM, YYYY'));
+//manuplating the date
+const today = dayjs();
+let deliveryTime = today.add(7, 'days');
+console.log(deliveryTime.format('D MMMM, YYYY'))
+
 
 //document.querySelector('.return-to-home-link').innerHTML = `${updateCartSum()} items`
 updateCartSum();
@@ -55,55 +64,43 @@ cart.forEach((cartProd) => {
                     </div>
                 </div>
 
-                <div class="delivery-options">
+                <div class="delivery-options .js-delivery-options">
                     <div class="delivery-options-title">
                         Choose a delivery option:
                     </div>
-                    <div class="delivery-option">
-                        <input type="radio" checked
-                        class="delivery-option-input"
-                        name="delivery-option-${boughtProd.id}">
-                        <div>
-                            <div class="delivery-option-date">
-                                Tuesday, June 21
-                            </div>
-                            <div class="delivery-option-price">
-                                FREE Shipping
-                            </div>
-                        </div>
-                    </div>
-                    <div class="delivery-option">
-                        <input type="radio"
-                        class="delivery-option-input"
-                        name="delivery-option-${boughtProd.id}">
-                        <div>
-                            <div class="delivery-option-date">
-                                Wednesday, June 15
-                            </div>
-                            <div class="delivery-option-price">
-                                $4.99 - Shipping
-                            </div>
-                        </div>
-                    </div>
-                    <div class="delivery-option">
-                        <input type="radio"
-                        class="delivery-option-input"
-                        name="delivery-option-${boughtProd.id}">
-                        <div>
-                            <div class="delivery-option-date">
-                                Monday, June 13
-                            </div>
-                            <div class="delivery-option-price">
-                                $9.99 - Shipping
-                            </div>
-                        </div>
-                    </div>
+                    ${deliveryOptsHtml(boughtProd, cartProd)}
                 </div>
             </div>
         </div> 
     `;
     DecTotal += boughtProd.priceCents / 100;
 });
+
+
+
+function deliveryOptsHtml(boughtProd, cartProd) {
+    let deliveryOptionsHtml = '';
+    deliveryOptions.forEach((opt) => {
+        let deliveryPrice = opt.priceCents === 0 ? "FREE Shipping" : `${formatCurrency(opt.priceCents)}`;
+        const deliveryDate = dayjs().add(opt.deliveryDays, 'days').format('dddd, MMMM D');
+
+        const isChecked = opt.id === cartProd.deliveryOptID;
+        deliveryOptionsHtml += `
+        <div class="delivery-option"> 
+            <input type="radio" checked class="delivery-option-input" name="delivery-option-${boughtProd.id}">
+            <div>
+                <div class="delivery-option-date">${deliveryDate}</div>
+                <div class="delivery-option-price">$ ${deliveryPrice} - Shipping</div>
+            </div>
+        </div>
+        `;
+    });
+    return deliveryOptionsHtml;
+}
+
+
+
+
 
 function OrderSumm() {
     // Estimated Costs
@@ -172,3 +169,4 @@ document.querySelectorAll('.save-quantity-link').forEach(savUpdate => {
 });
 
 // Test grounds
+
