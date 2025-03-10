@@ -1,26 +1,28 @@
 import { products } from "../data/products.js";
-import { cart,updateCartSum, updateProdQuantity } from "../data/cart.js";
+import { cart, updateCartSum, updateProdQuantity } from "../data/cart.js";
 import { formatCurrency } from "./utils/money.js";
 import { delete4rmCart } from "../data/cart.js";
+import dayjs from 'https://unpkg.com/dayjs@1.11.13/esm/index.js';
+
+console.log(dayjs().format()); 
 
 //document.querySelector('.return-to-home-link').innerHTML = `${updateCartSum()} items`
 updateCartSum();
 
 //document.querySelector('.js-order-sum').innerHTML=cart.length
-let boughtProdsHTML = ''
+let boughtProdsHTML = '';
 let DecTotal = 0;
 
-cart.forEach((cartProd)=>{
-    //Find bought product  (Added to  Cart) from products.js using their id
-    let  boughtProd;
-    products.forEach((stockProd) =>{
-        if (stockProd.id === cartProd.id){
+cart.forEach((cartProd) => {
+    // Find bought product (Added to Cart) from products.js using their id
+    let boughtProd;
+    products.forEach((stockProd) => {
+        if (stockProd.id === cartProd.id) {
             boughtProd = stockProd;
-            
         }
-    })
+    });
 
-    //Generate Bought products HTML
+    // Generate Bought products HTML
     boughtProdsHTML += `
         <div class="cart-item-container js-item-contaner-${boughtProd.id}">
             <div class="delivery-date">
@@ -99,84 +101,74 @@ cart.forEach((cartProd)=>{
                 </div>
             </div>
         </div> 
-    `
-    DecTotal += boughtProd.priceCents/100;
-})
+    `;
+    DecTotal += boughtProd.priceCents / 100;
+});
 
-function OrderSumm(){
-    //Estimated Costs
+function OrderSumm() {
+    // Estimated Costs
+    let tax = 10 / 100;
+    let shippingHandling = 4.99;
 
-    let tax = 10/100;
-    let shippingHandling = 4.99
-
-    if(!DecTotal){
+    if (!DecTotal) {
         tax = 0;
         shippingHandling = 0.00;
         document.querySelector('.js-shipEnHandle').innerHTML = '0.00';
     }
-    //total cost of intems in the cart
-    let roundedTotal = DecTotal.toFixed(2)
-    document.querySelector('.payment-summary-money').innerHTML = roundedTotal
+    // Total cost of items in the cart
+    let roundedTotal = DecTotal.toFixed(2);
+    document.querySelector('.payment-summary-money').innerHTML = roundedTotal;
     
-    //total cost before tax with shipping and handling
-    let costB4Tax = (((roundedTotal*100) + (shippingHandling*100))/100).toFixed(2)
-    document.querySelector('.b4Tax').innerHTML = costB4Tax
-    let estimatedTax = ((tax * (costB4Tax * 100))/100).toFixed(2)
-    document.querySelector('.js-est-tax').innerHTML = estimatedTax
+    // Total cost before tax with shipping and handling
+    let costB4Tax = (((roundedTotal * 100) + (shippingHandling * 100)) / 100).toFixed(2);
+    document.querySelector('.b4Tax').innerHTML = costB4Tax;
+    let estimatedTax = ((tax * (costB4Tax * 100)) / 100).toFixed(2);
+    document.querySelector('.js-est-tax').innerHTML = estimatedTax;
 
-    //Order Total with tax, shipping & Handling
-    let totalCostWithTax = (((costB4Tax * 100) + (estimatedTax * 100))/100).toFixed(2)
+    // Order Total with tax, shipping & Handling
+    let totalCostWithTax = (((costB4Tax * 100) + (estimatedTax * 100)) / 100).toFixed(2);
     document.querySelector('.js-order-total').innerHTML = totalCostWithTax;
     document.querySelector('.js-order-summary').innerHTML = boughtProdsHTML;
 }
 
 OrderSumm();
 
-
-
-
-
-//get the id of the product
-//search for matching id in the cart
-//delete the product from the cart
-
-document.querySelectorAll('.js-delete').forEach((deletor)=>{
-    deletor.addEventListener('click', ()=>{
-        const prodId = deletor.dataset.prodId
-        delete4rmCart(prodId)
+// Get the id of the product
+// Search for matching id in the cart
+// Delete the product from the cart
+document.querySelectorAll('.js-delete').forEach((deletor) => {
+    deletor.addEventListener('click', () => {
+        const prodId = deletor.dataset.prodId;
+        delete4rmCart(prodId);
         
-        //Remove product Html from the DOM
-        const container = document.querySelector(`.js-item-contaner-${prodId}`)
-        container.remove()
-        updateCartSum()
-    })
-})
-
-
-
-
-
-//Updating The cart
-
-document.querySelectorAll('.js-update').forEach(updator => {
-    updator.addEventListener('click', ()=>{
-        let updateID = updator.dataset.prodId;
-        document.querySelector(`.js-item-contaner-${updateID}`).classList.add('is-editing-quantity') 
-        document.querySelector(`.quantity-input-${updateID}`).classList.add('view-qty-editor')
-        document.querySelector(`.save-quantity-link-${updateID}`).classList.add('view-qty-editor')
-    })
+        // Remove product Html from the DOM
+        const container = document.querySelector(`.js-item-contaner-${prodId}`);
+        container.remove();
+        updateCartSum();
+    });
 });
 
-
-document.querySelectorAll('.save-quantity-link').forEach( savUpdate => {
-    savUpdate.addEventListener('click' , ()=>{
-        let updateID = savUpdate.dataset.updateProdId;
-        const upDateBy = savUpdate.closest('.cart-item-details').querySelector(`.quantity-input-${updateID}`).value
-        savUpdate.closest('.cart-item-details').querySelector(`.quantity-label-${updateID}`).innerHTML = upDateBy;
-        updateProdQuantity(updateID, upDateBy)
-        //
-        document.querySelector(`.js-item-contaner-${updateID}`).classList.remove('is-editing-quantity') 
-        document.querySelector(`.quantity-input-${updateID}`).classList.remove('view-qty-editor')
-        document.querySelector(`.save-quantity-link-${updateID}`).classList.remove('view-qty-editor')
+// Updating The cart
+document.querySelectorAll('.js-update').forEach(updator => {
+    updator.addEventListener('click', () => {
+        let updateID = updator.dataset.prodId;
+        document.querySelector(`.js-item-contaner-${updateID}`).classList.add('is-editing-quantity');
+        document.querySelector(`.quantity-input-${updateID}`).classList.add('view-qty-editor');
+        document.querySelector(`.save-quantity-link-${updateID}`).classList.add('view-qty-editor');
     });
-})
+});
+
+document.querySelectorAll('.save-quantity-link').forEach(savUpdate => {
+    savUpdate.addEventListener('click', () => {
+        let updateID = savUpdate.dataset.updateProdId;
+        const upDateBy = savUpdate.closest('.cart-item-details').querySelector(`.quantity-input-${updateID}`).value;
+        savUpdate.closest('.cart-item-details').querySelector(`.quantity-label-${updateID}`).innerHTML = upDateBy;
+        updateProdQuantity(updateID, upDateBy);
+        //
+        document.querySelector(`.js-item-contaner-${updateID}`).classList.remove('is-editing-quantity');
+        document.querySelector(`.quantity-input-${updateID}`).classList.remove('view-qty-editor');
+        document.querySelector(`.save-quantity-link-${updateID}`).classList.remove('view-qty-editor');
+    });
+});
+
+// Test grounds
