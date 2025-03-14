@@ -2,8 +2,8 @@ export let cart = JSON.parse(localStorage.getItem('cart'))
 
 if(!cart){
     cart = [
-        {id: "15b6fc6f-327a-4ec4-896f-486349e85a3d", selectedQty : 2},
-        {id: "3ebe75dc-64d2-4137-8860-1f5a963e534b", selectedQty : 8}
+        {id: "15b6fc6f-327a-4ec4-896f-486349e85a3d", selectedQty : 2, deliveryOptID : 1},
+        {id: "3ebe75dc-64d2-4137-8860-1f5a963e534b", selectedQty : 8, deliveryOptID : 2},
     ];
 }
 
@@ -30,7 +30,8 @@ export function addTocart(productID){
     }else{
         cart.push({
             id : productID,
-            selectedQty : selectedQty
+            selectedQty : selectedQty,
+            deliveryOptID : 1
         })
     }
     //update local storage

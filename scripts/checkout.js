@@ -4,16 +4,7 @@ import { formatCurrency } from "./utils/money.js";
 import { delete4rmCart } from "../data/cart.js";
 import dayjs from 'https://unpkg.com/dayjs@1.11.13/esm/index.js'
 import { deliveryOptions } from "../data/deliveryOptions.js";
-
-
-//test.
-console.log(dayjs())
-console.log(dayjs().format( 'D MMMM, YYYY'));
-//manuplating the date
-const today = dayjs();
-let deliveryTime = today.add(7, 'days');
-console.log(deliveryTime.format('D MMMM, YYYY'))
-
+import { futureDate } from "../data/day.js";
 
 //document.querySelector('.return-to-home-link').innerHTML = `${updateCartSum()} items`
 updateCartSum();
@@ -31,11 +22,17 @@ cart.forEach((cartProd) => {
         }
     });
 
+    const deliveryOption = deliveryOptions.find((opt) => opt.id === cartProd.deliveryOptID);
+    const deliveryDate = futureDate(deliveryOption.deliveryDays);
+    
+    console.log(futureDate(3))
+
+
     // Generate Bought products HTML
     boughtProdsHTML += `
         <div class="cart-item-container js-item-contaner-${boughtProd.id}">
             <div class="delivery-date">
-                Delivery date: Tuesday, June 21
+                Delivery date: ${deliveryDate}
             </div>
 
             <div class="cart-item-details-grid">
@@ -82,10 +79,9 @@ function deliveryOptsHtml(boughtProd, cartProd) {
     let deliveryOptionsHtml = '';
     deliveryOptions.forEach((opt) => {
         let deliveryPrice = opt.priceCents === 0 ? "FREE Shipping" : `${formatCurrency(opt.priceCents)}`;
-        const deliveryDate = dayjs().add(opt.deliveryDays, 'days').format('dddd, MMMM D');
+        const deliveryDate = futureDate(opt.deliveryDays);
 
         const isChecked = opt.id === cartProd.deliveryOptID;
-        console.log(isChecked);
         deliveryOptionsHtml += `
         <div class="delivery-option"> 
             <input type="radio" 
