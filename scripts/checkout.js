@@ -85,9 +85,12 @@ function deliveryOptsHtml(boughtProd, cartProd) {
         const deliveryDate = dayjs().add(opt.deliveryDays, 'days').format('dddd, MMMM D');
 
         const isChecked = opt.id === cartProd.deliveryOptID;
+        console.log(isChecked);
         deliveryOptionsHtml += `
         <div class="delivery-option"> 
-            <input type="radio" checked class="delivery-option-input" name="delivery-option-${boughtProd.id}">
+            <input type="radio" 
+            ${isChecked ? 'checked' : ''}
+            class="delivery-option-input" name="delivery-option-${boughtProd.id}">
             <div>
                 <div class="delivery-option-date">${deliveryDate}</div>
                 <div class="delivery-option-price">$ ${deliveryPrice} - Shipping</div>
@@ -170,3 +173,4 @@ document.querySelectorAll('.save-quantity-link').forEach(savUpdate => {
 
 // Test grounds
 
+ 
