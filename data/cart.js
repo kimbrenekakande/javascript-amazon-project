@@ -100,3 +100,15 @@ export function updateProdQuantity (prodId, upDateBy){
     save2storage();
     updateCartSum();
 }
+
+// Unsure if this function isnt already there 
+
+export function updateDeliveryOpt(prodId, deliveryOptID){
+    cart.forEach((prod)=>{
+        if(prod.id === prodId){
+            prod.deliveryOptID = deliveryOptID;
+        }
+    })
+    save2storage();
+    updateCartSum();
+}

@@ -1,8 +1,8 @@
 import { products } from "../data/products.js";
-import { cart, updateCartSum, updateProdQuantity } from "../data/cart.js";
+import { cart, updateCartSum, updateProdQuantity,updateDeliveryOpt } from "../data/cart.js";
 import { formatCurrency } from "./utils/money.js";
 import { delete4rmCart } from "../data/cart.js";
-import dayjs from 'https://unpkg.com/dayjs@1.11.13/esm/index.js'
+//import dayjs from 'https://unpkg.com/dayjs@1.11.13/esm/index.js'
 import { deliveryOptions } from "../data/deliveryOptions.js";
 import { futureDate } from "../data/day.js";
 
@@ -22,7 +22,12 @@ cart.forEach((cartProd) => {
         }
     });
 
-    const deliveryOption = deliveryOptions.find((opt) => opt.id === cartProd.deliveryOptID);
+    const deliveryOption = deliveryOptions.find((opt) => opt.id === Number(cartProd.deliveryOptID));
+    if (!deliveryOption) {
+        console.error(`No delivery option found for ID: ${cartProd.deliveryOptID}`);
+        console.log(cartProd);
+        return; // Skip this iteration if no matching delivery option is found
+    }
     const deliveryDate = futureDate(deliveryOption.deliveryDays);
     
     console.log(futureDate(3))
@@ -81,9 +86,9 @@ function deliveryOptsHtml(boughtProd, cartProd) {
         let deliveryPrice = opt.priceCents === 0 ? "FREE Shipping" : `${formatCurrency(opt.priceCents)}`;
         const deliveryDate = futureDate(opt.deliveryDays);
 
-        const isChecked = opt.id === cartProd.deliveryOptID;
+        const isChecked = Number(opt.id) === Number(cartProd.deliveryOptID);
         deliveryOptionsHtml += `
-        <div class="delivery-option"> 
+        <div class="delivery-option js-delivery-option"  data-prod-id = ${boughtProd.id} data-delivery-opt-id=${opt.id}> 
             <input type="radio" 
             ${isChecked ? 'checked' : ''}
             class="delivery-option-input" name="delivery-option-${boughtProd.id}">
@@ -94,7 +99,7 @@ function deliveryOptsHtml(boughtProd, cartProd) {
         </div>
         `;
     });
-    return deliveryOptionsHtml;
+    return deliveryOptionsHtml; 
 }
 
 
@@ -160,6 +165,8 @@ document.querySelectorAll('.save-quantity-link').forEach(savUpdate => {
         const upDateBy = savUpdate.closest('.cart-item-details').querySelector(`.quantity-input-${updateID}`).value;
         savUpdate.closest('.cart-item-details').querySelector(`.quantity-label-${updateID}`).innerHTML = upDateBy;
         updateProdQuantity(updateID, upDateBy);
+        console.log(updateID, upDateBy);
+        console.log(cart);
         //
         document.querySelector(`.js-item-contaner-${updateID}`).classList.remove('is-editing-quantity');
         document.querySelector(`.quantity-input-${updateID}`).classList.remove('view-qty-editor');
@@ -167,6 +174,27 @@ document.querySelectorAll('.save-quantity-link').forEach(savUpdate => {
     });
 });
 
-// Test grounds
 
- 
+
+document.querySelectorAll('.js-delivery-option').forEach(deliveryOpt => {
+    deliveryOpt.addEventListener('click', () => {
+        const prodId = deliveryOpt.dataset.prodId;
+        const deliveryOptId = deliveryOpt.dataset.deliveryOptId;
+
+        // Update the delivery option in the cart
+        updateDeliveryOpt(prodId, deliveryOptId);
+
+        // Find the selected delivery option
+        const selectedOption = deliveryOptions.find(opt => Number(opt.id) === Number(deliveryOptId));
+        if (selectedOption) {
+            // Calculate the new delivery date
+            const newDeliveryDate = futureDate(selectedOption.deliveryDays);
+
+            // Update the delivery-date element in the DOM
+            const deliveryDateElement = document.querySelector(`.js-item-contaner-${prodId} .delivery-date`);
+            if (deliveryDateElement) {
+                deliveryDateElement.textContent = `Delivery date: ${newDeliveryDate}`;
+            }
+        }
+    });
+});
