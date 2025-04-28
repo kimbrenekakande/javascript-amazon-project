@@ -36,12 +36,12 @@ export function addTocart(productID){
     }
     //update local storage
     save2storage();
-    updateCartSum()
+    updateCartSum();
 }
 
 
 //delete product from cart
-export function delete4rmCart(productId){
+export function delete4rmCart(productId){ 
     let newCart = [];
     cart.forEach((prod)=>{
         if (prod.id !== productId) {
