@@ -4,6 +4,7 @@ import { formatCurrency } from "../utils/money.js";
 import { delete4rmCart } from "../../data/cart.js";
 import { deliveryOptions, getDeliveryOpt } from "../../data/deliveryOptions.js";
 import { futureDate } from "../../data/day.js";
+import { renderPaymentSummary } from "./paymentSummary.js";
 
 //document.querySelector('.return-to-home-link').innerHTML = `${updateCartSum()} items`
 updateCartSum();
@@ -98,37 +99,15 @@ export function renderOrderSummary() {
         return deliveryOptionsHtml; 
     }
 
+    document.querySelector('.js-order-summary').innerHTML = boughtProdsHTML;
 
 
 
 
-    function OrderSumm() {
-        // Estimated Costs
-        let tax = 10 / 100;
-        let shippingHandling = 4.99;
 
-        if (!DecTotal) {
-            tax = 0;
-            shippingHandling = 0.00;
-            document.querySelector('.js-shipEnHandle').innerHTML = '0.00';
-        }
-        // Total cost of items in the cart
-        let roundedTotal = DecTotal.toFixed(2);
-        document.querySelector('.payment-summary-money').innerHTML = roundedTotal;
-        
-        // Total cost before tax with shipping and handling
-        let costB4Tax = (((roundedTotal * 100) + (shippingHandling * 100)) / 100).toFixed(2);
-        document.querySelector('.b4Tax').innerHTML = costB4Tax;
-        let estimatedTax = ((tax * (costB4Tax * 100)) / 100).toFixed(2);
-        document.querySelector('.js-est-tax').innerHTML = estimatedTax;
 
-        // Order Total with tax, shipping & Handling
-        let totalCostWithTax = (((costB4Tax * 100) + (estimatedTax * 100)) / 100).toFixed(2);
-        document.querySelector('.js-order-total').innerHTML = totalCostWithTax;
-        document.querySelector('.js-order-summary').innerHTML = boughtProdsHTML;
-    }
-
-    OrderSumm();
+    //function OrderSumm() was here
+    
 
     // Get the id of the product
     // Search for matching id in the cart
@@ -137,11 +116,13 @@ export function renderOrderSummary() {
         deletor.addEventListener('click', () => {
             const prodId = deletor.dataset.prodId;
             delete4rmCart(prodId);
-            
+
             // Remove product Html from the DOM
             const container = document.querySelector(`.js-item-contaner-${prodId}`);
             container.remove();
+
             updateCartSum();
+            renderPaymentSummary(); // Re-render payment summary
         });
     });
 
@@ -152,6 +133,7 @@ export function renderOrderSummary() {
             document.querySelector(`.js-item-contaner-${updateID}`).classList.add('is-editing-quantity');
             document.querySelector(`.quantity-input-${updateID}`).classList.add('view-qty-editor');
             document.querySelector(`.save-quantity-link-${updateID}`).classList.add('view-qty-editor');
+            renderPaymentSummary();
         });
     });
 
@@ -167,6 +149,7 @@ export function renderOrderSummary() {
             document.querySelector(`.js-item-contaner-${updateID}`).classList.remove('is-editing-quantity');
             document.querySelector(`.quantity-input-${updateID}`).classList.remove('view-qty-editor');
             document.querySelector(`.save-quantity-link-${updateID}`).classList.remove('view-qty-editor');
+            renderPaymentSummary();
         });
     });
 
@@ -191,4 +174,4 @@ export function renderOrderSummary() {
             renderOrderSummary();
         });
     });
-}; 
+};
