@@ -162,16 +162,8 @@ export function renderOrderSummary() {
 
             // Update the delivery option in the cart
             updateDeliveryOpt(prodId, deliveryOptId);
-
-            // Find the selected delivery option
-            /*
-            const selectedOption = deliveryOptions.find(opt => Number(opt.id) === Number(deliveryOptId));
-            if (selectedOption) {
-                // Calculate the new delivery date
-                const newDeliveryDate = futureDate(selectedOption.deliveryDays);
-                // Update the delivery-date element in the DOM
-            */
             renderOrderSummary();
+            renderPaymentSummary(); // Re-render payment summary
         });
     });
 };
