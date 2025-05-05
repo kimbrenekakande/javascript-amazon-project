@@ -13,12 +13,16 @@
   <!-- optional: include a file here that configures the Jasmine env -->
   <script src="lib/jasmine-5.7.0/boot1.js"></script>
 
-  
-
+  <script type="module">
+    import "./utils/moneyTest.js";
+    import "./data/cartTest.js";
+    import "./checkout/orderSummaryTest.js";
+  </script>
 </head>
 
 <body>
-  <script src="utils/moneyTest.js" type="module"></script>
-  <script src="data/cartTest.js" type="module"></script>
+  <div class="js-test-container">
+    
+  </div>
 </body>
 </html>
