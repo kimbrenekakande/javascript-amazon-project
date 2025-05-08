@@ -668,3 +668,7 @@ export const products = [
     ]
   }
 ];
+
+console.log('yello the world is my oyster');
+console.log(("___________________________"));
+console.log(getProduct("e43638ce-6aa0-4b85-b27f-e1d07eb678c6"));
