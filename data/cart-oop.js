@@ -58,7 +58,7 @@ function Cart(localStorageKey) {
       this.save2storage();
     },
   
-    // Update cart sum
+    // FIXME Update cart sum
     updateCartSum() {
       let cartSum = 0;
       this.cartItems.forEach((prody) => {

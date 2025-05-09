@@ -1,17 +1,16 @@
 
 class Cart {
   cartItems;
-  localStorageKey;
+  #localStorageKey;
 
   constructor(localStorageKey) {
     
-    this.localStorageKey = localStorageKey;
+    this.#localStorageKey = localStorageKey;
     this.defaultCart();
-
 
   }
   
-
+  // TODO Check if local storage is available
   defaultCart() {
     if (!this.cartItems) {
       this.cartItems = [
