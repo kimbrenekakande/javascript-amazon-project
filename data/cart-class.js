@@ -6,12 +6,12 @@ class Cart {
   constructor(localStorageKey) {
     
     this.#localStorageKey = localStorageKey;
-    this.defaultCart();
+    this.#defaultCart();
 
   }
   
   // TODO Check if local storage is available
-  defaultCart() {
+  #defaultCart() {
     if (!this.cartItems) {
       this.cartItems = [
         { id: "15b6fc6f-327a-4ec4-896f-486349e85a3d", selectedQty: 2, deliveryOptID: 1 },
@@ -138,3 +138,4 @@ console.log(Object.getPrototypeOf(cart));
 
 
 console.log(cart instanceof Cart);
+
