@@ -112,5 +112,3 @@ export function updateDeliveryOpt(prodId, deliveryOptID){
     save2storage();
     updateCartSum();
 }
-
-console.log('seeeeeeee')

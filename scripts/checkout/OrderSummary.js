@@ -15,6 +15,7 @@ export function renderOrderSummary() {
     let DecTotal = 0;
 
     cart.forEach((cartProd) => {
+      
         // Find bought product (Added to Cart) from products.js using their id
         const boughtProd = getProduct(cartProd.id);
 
@@ -28,7 +29,6 @@ export function renderOrderSummary() {
         const deliveryDate = futureDate(deliveryOption.deliveryDays);
         
         console.log(futureDate(3))
-
 
         // Generate Bought products HTML
         boughtProdsHTML += `
@@ -46,7 +46,7 @@ export function renderOrderSummary() {
                             ${boughtProd.name}
                         </div>
                         <div class="product-price">
-                            ${formatCurrency(boughtProd.priceCents)}
+                            ${boughtProd.getPrice()}
                         </div>
                         <div class="product-quantity">
                             <span>
