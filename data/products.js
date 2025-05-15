@@ -18,26 +18,49 @@ class Product {
   priceCents;
   keywords;
 
-  constructor(id, image, name, rating, priceCents, keywords) {
-    this.id = id;
-    this.image = image;
-    this.name = name;
-    this.rating = rating;
-    this.priceCents = priceCents;
-    this.keywords = keywords;
+  constructor(prod) {
+    this.id = prod.id;
+    this.image = prod.image;
+    this.name = prod.name;
+    this.rating = prod.rating;
+    this.priceCents = prod.priceCents;
+    this.keywords = prod.keywords;
   }
 
-  getStars() { return `${this.rating.stars}`};
+  getStars() { return this.rating.stars; }
   getPrice() { return `${formatCurrency(this.priceCents)}`};
-  
+
 
 }
 
-const productx = new Product;
+
+//Create a class for clothing that extends the Product class(Child class)
+class Clothing extends Product {};
+
+
+const teed = new Clothing({
+  id: "58b4fc92-e98c-42aa-8c55-b6b79996769a",
+  image: "images/products/knit-athletic-sneakers-gray.jpg",
+  name: "Waterproof Knit Athletic Sneakers - Gray",
+  rating: {
+    stars: ' /images/ratings/rating-45.png',
+    count: 89
+  },
+  priceCents: 3390,
+  keywords: [
+    "shoes",
+    "running shoes",
+    "footwear"
+  ]
+});
+
+console.log(teed);
+console.log(teed.getStars());
+console.log(teed.getPrice());
 
 
 
-
+  
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -698,15 +721,11 @@ export const products = [
     ]
   }
 ].map((prod) => {
-  return new Product(
-    prod.id,
-    prod.image,
-    prod.name,
-    prod.rating,
-    prod.priceCents,
-    prod.keywords
-  );
+  return new Product(prod); 
 }
 );
+
+
+console.log(products);
 
 
