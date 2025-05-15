@@ -33,9 +33,6 @@ class Product {
 
 }
 
-const productx = new Product;
-
-
 
 
 export const products = [
