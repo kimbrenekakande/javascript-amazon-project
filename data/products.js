@@ -12,7 +12,7 @@ export function getProduct(ProdId){
 
 class Product {
   id;
-  image;
+  image; 
   name;
   rating;
   priceCents;
@@ -29,34 +29,54 @@ class Product {
 
   getStars() { return this.rating.stars; }
   getPrice() { return `${formatCurrency(this.priceCents)}`};
-
+  extraInfo() { return ''; } // Default implementation, can be overridden by subclasses
 
 }
 
 
 //Create a class for clothing that extends the Product class(Child class)
-class Clothing extends Product {};
+class Clothing extends Product {
+  sizeChartLink;
+
+  constructor(prod) {
+    super(prod);
+    this.sizeChartLink = prod.sizeChartLink;
+  }
+
+  extraInfo() {
+    return `
+      <div class="product-size-chart">
+        <a href="${this.sizeChartLink}" target="_blank">Size Chart</a>
+      </div>
+    `;
+  };
+
+}; 
 
 
-const teed = new Clothing({
-  id: "58b4fc92-e98c-42aa-8c55-b6b79996769a",
-  image: "images/products/knit-athletic-sneakers-gray.jpg",
-  name: "Waterproof Knit Athletic Sneakers - Gray",
-  rating: {
-    stars: ' /images/ratings/rating-45.png',
-    count: 89
-  },
-  priceCents: 3390,
-  keywords: [
-    "shoes",
-    "running shoes",
-    "footwear"
-  ]
-});
+const tShirt = new Clothing(
+  {
+    id: "83d4ca15-0f35-48f5-b7a3-1ea210004f2e",
+    image: "images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg",
+    name: "Adults Plain Cotton T-Shirt - 2 Pack",
+    rating: {
+      stars: ' /images/ratings/rating-45.png',
+      count: 56
+    },
+    priceCents: 799,
+    keywords: [
+      "tshirts",
+      "apparel",
+      "mens"
+    ],
+    type: "clothing",
+    sizeChartLink: "images/clothing-size-chart.png"
+  }
+);
 
-console.log(teed);
-console.log(teed.getStars());
-console.log(teed.getPrice());
+console.log(tShirt);
+console.log(tShirt.getStars());
+console.log(tShirt.getPrice());
 
 
 
@@ -721,7 +741,13 @@ export const products = [
     ]
   }
 ].map((prod) => {
+
+  if (prod.type === 'clothing') {
+    return new Clothing(prod);
+  }else{
   return new Product(prod); 
+  }
+
 }
 );
 
