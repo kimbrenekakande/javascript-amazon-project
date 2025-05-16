@@ -1,9 +1,13 @@
-import { products } from "../data/products.js";
+import { products, loadProducts } from "../data/products.js";
 import { cart, addTocart, updateCartSum} from "../data/cart.js";
+import "/data/products.js"
 
-let productsHTML = '';
 
-products.forEach((product)=>{
+loadProducts(renderProductGrid);
+
+function renderProductGrid() {
+  let productsHTML = '';
+  products.forEach((product)=>{
     productsHTML +=`
     <div class="product-container"> 
             <div class="product-image-container">
@@ -46,6 +50,7 @@ products.forEach((product)=>{
             </button>
         </div>`
 })
+
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
 
@@ -72,6 +77,11 @@ document.querySelectorAll('.js-add-cart').forEach((button) => {
     
 });
 updateCartSum();
+    
+}
+
+
+
 
 
 

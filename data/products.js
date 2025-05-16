@@ -27,7 +27,7 @@ class Product {
     this.keywords = prod.keywords;
   }
 
-  getStars() { return this.rating.stars; }
+  getStars() { return this.rating.stars }
   getPrice() { return `${formatCurrency(this.priceCents)}`};
   extraInfo() { return ''; } // Default implementation, can be overridden by subclasses
 
@@ -80,7 +80,38 @@ console.log(tShirt.getPrice());
 
 
 
-  
+
+export let products = []
+
+export function loadProducts(renderFunction) {
+  let xhr = new XMLHttpRequest();
+
+  xhr.addEventListener('load', function() {
+    products = JSON.parse(xhr.response).map( prod => {
+
+      if (prod.type === 'clothing') {
+        return new Clothing(prod);
+      }else{
+      return new Product(prod); 
+      };
+
+    });
+    console.log('products Loaded');
+    products
+    console.log(products);
+    renderFunction();
+  });
+
+  xhr.open('GET', 'https://supersimplebackend.dev/products');
+  xhr.send();
+
+
+}
+
+
+
+
+/* 
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -754,4 +785,4 @@ export const products = [
 
 console.log(products);
 
-
+*/
