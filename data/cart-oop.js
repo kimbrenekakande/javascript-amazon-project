@@ -128,8 +128,6 @@ function Cart(localStorageKey) {
 const newCart = Cart('cartClone1');
 const bussinessCart = Cart('cartClone2');
 
-console.log(newCart);
-console.log(bussinessCart);
 
 
 

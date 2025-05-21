@@ -1,4 +1,4 @@
-import { products, getProduct } from "../../data/products.js";
+import { loadProducts, getProduct } from "../../data/products.js";
 import { cart, updateCartSum, updateProdQuantity, updateDeliveryOpt } from "../../data/cart.js";
 import { formatCurrency } from "../utils/money.js";
 import { delete4rmCart } from "../../data/cart.js";
@@ -15,9 +15,12 @@ export function renderOrderSummary() {
     let DecTotal = 0;
 
     cart.forEach((cartProd) => {
+      console.log(cart);
+    
       
         // Find bought product (Added to Cart) from products.js using their id
         const boughtProd = getProduct(cartProd.id);
+        console.log(boughtProd)
 
         const deliveryOption = getDeliveryOpt(cartProd.deliveryOptID);
     

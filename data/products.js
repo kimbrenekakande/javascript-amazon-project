@@ -1,6 +1,10 @@
 import { formatCurrency } from "../scripts/utils/money.js";
 
 export function getProduct(ProdId){
+  if (!products || products.length === 0) {
+    console.warn('Products not loaded yet! Please ensure loadProducts has completed before calling getProduct.');
+    return undefined;
+  }
   let boughtProd;
   products.forEach((stockProd) => {
     if (stockProd.id === ProdId) {
@@ -73,11 +77,6 @@ const tShirt = new Clothing(
     sizeChartLink: "images/clothing-size-chart.png"
   }
 );
-
-console.log(tShirt);
-console.log(tShirt.getStars());
-console.log(tShirt.getPrice());
-
 
 
 
