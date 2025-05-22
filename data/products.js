@@ -82,9 +82,12 @@ const tShirt = new Clothing(
 
 export let products = []
 
-export function loadProductsFetch(renderFunction) {
-  const promise = fetch('https://supersimplebackend.dev/products')
+export function loadProductsFetch() {
+  return fetch('https://supersimplebackend.dev/products')
     .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       return response.json();
     })
     .then((productsData) => {
@@ -95,9 +98,8 @@ export function loadProductsFetch(renderFunction) {
           return new Product(prod);
         }
       });
-
+      return products; // Return the products for further chaining if needed
     });
-    return promise;
 }
 
 // loadProductsFetch().then(() => {
