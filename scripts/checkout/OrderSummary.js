@@ -15,23 +15,15 @@ export function renderOrderSummary() {
     let DecTotal = 0;
 
     cart.forEach((cartProd) => {
-      console.log(cart);
     
       
         // Find bought product (Added to Cart) from products.js using their id
         const boughtProd = getProduct(cartProd.id);
-        console.log(boughtProd)
 
         const deliveryOption = getDeliveryOpt(cartProd.deliveryOptID);
-    
-        if (!deliveryOption) {
-            console.error(`No delivery option found for ID: ${cartProd.deliveryOptID}`);
-            console.log(cartProd);
-            return; // Skip this iteration if no matching delivery option is found
-        }
+
         const deliveryDate = futureDate(deliveryOption.deliveryDays);
         
-        console.log(futureDate(3))
 
         // Generate Bought products HTML
         boughtProdsHTML += `
@@ -146,8 +138,7 @@ export function renderOrderSummary() {
             const upDateBy = savUpdate.closest('.cart-item-details').querySelector(`.quantity-input-${updateID}`).value;
             savUpdate.closest('.cart-item-details').querySelector(`.quantity-label-${updateID}`).innerHTML = upDateBy;
             updateProdQuantity(updateID, upDateBy);
-            console.log(updateID, upDateBy);
-            console.log(cart);
+            
             //
             document.querySelector(`.js-item-contaner-${updateID}`).classList.remove('is-editing-quantity');
             document.querySelector(`.quantity-input-${updateID}`).classList.remove('view-qty-editor');
